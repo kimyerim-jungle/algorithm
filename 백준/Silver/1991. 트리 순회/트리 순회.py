@@ -1,62 +1,34 @@
 import sys
 
 num = int(input())
-graph = {i:[] for i in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"}
+graph = dict()
 
 for _ in range(num):
     parent, child_left, child_right = sys.stdin.readline().split()
-    graph[parent] += [child_left, child_right]
-
-def preorder(graph, root):
-    stack = [root]
-    result = ''
     
-    while stack:
-        node = stack.pop()
-        result += node
-        
-        if graph[node][1] != '.':
-            stack.append(graph[node][1])
-        
-        if graph[node][0] != '.':
-            stack.append(graph[node][0])
-            
-    return result
-
-def inorder(graph, root):
-    stack = [root]
-    result = ''
+    graph[parent] = child_left, child_right
     
-    while stack:
-        if graph[stack[-1]][0] != '.' and graph[stack[-1]][0] not in result:
-            stack.append(graph[stack[-1]][0])
-            
-        elif stack[-1] in result:
-            stack.append(graph[stack[-1]][1])
-            
-        else: 
-            node = stack.pop()
-            result += node
-            if graph[node][1] != '.':
-                stack.append(graph[node][1])
-    return result
+def print_subtree_in(node):
+    if node != '.':
+        print_subtree_in(graph[node][0])
+        print(node, end="")
+        print_subtree_in(graph[node][1])
 
-def postorder(graph, root):
-    stack = [root]
-    result = ''
-    
-    while stack:
-        if graph[stack[-1]][0] != '.' and graph[stack[-1]][0] not in result:
-            stack.append(graph[stack[-1]][0])
-            
-        elif graph[stack[-1]][1] == '.' or graph[stack[-1]][1] in result:
-            result += stack.pop()
-        
-        else:
-            stack.append(graph[stack[-1]][1])
-    return result
+def print_subtree_pre(node):
+    if node != '.':
+        print(node, end="")
+        print_subtree_pre(graph[node][0])
+        print_subtree_pre(graph[node][1])
 
-print(preorder(graph, "A"))
-print(inorder(graph, "A"))
-print(postorder(graph, "A"))
+def print_subtree_post(node):
+    if node != '.':
+        print_subtree_post(graph[node][0])
+        print_subtree_post(graph[node][1])
+        print(node, end="")
     
+print_subtree_pre('A')
+print()
+print_subtree_in('A')
+print()
+print_subtree_post("A")
+       
