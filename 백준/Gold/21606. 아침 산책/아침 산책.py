@@ -1,5 +1,5 @@
 import sys
-sys.setrecursionlimit(10**5)
+sys.setrecursionlimit(2*10^5)
 
 N = int(input())
 graph = [[] for _ in range(N+1)]
