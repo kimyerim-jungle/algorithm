@@ -9,12 +9,9 @@ for i in range(len(string)):
         add += int(n)
         n=''
     elif string[i] == '-':
-        if add != 0: 
-            num.append(add + int(n))
-            add = 0
-        else: 
-            num.append(int(n))
+        num.append(add + int(n))
         n=''
+        add = 0
     else:
         n += string[i]
     
